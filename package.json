@@ -1,0 +1,31 @@
+{
+  "name": "react-bem-render",
+  "version": "0.1.0",
+  "description": "just a simple bem render to auto add bem classes in a component.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "react": "^0.12.2"
+  },
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "jsdom": "^3.1.1",
+    "jsx-require-extension": "^0.2.0",
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "mocha --compilers jsx:jsx-require-extension utils/jsdom.js --check-leaks test/*.spec.js*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/morlay/react-bem-render.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morlay/react-bem-render/issues"
+  },
+  "homepage": "https://github.com/morlay/react-bem-render"
+}
