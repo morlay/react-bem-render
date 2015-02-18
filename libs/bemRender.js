@@ -3,10 +3,12 @@ var ELEM_DELIM = '__';
 var MOD_DELIM = '--';
 
 module.exports = function (reactElement) {
+
   if (React.isValidElement(reactElement)) {
     return bemRender(reactElement)
   }
   return null;
+
 };
 
 function bemRender(reactElement, parentBlock) {
@@ -14,22 +16,21 @@ function bemRender(reactElement, parentBlock) {
   var props = reactElement.props || reactElement._store.props;
 
   if (type(reactElement.type) === 'Function' && !props.block) {
-    // render inner component
-    props._parentBlock = parentBlock;
-    return reactElement;
-  }
-
-  parentBlock = props._parentBlock || parentBlock;
-
-  if (!props.block && !props.elem) {
-    // block or elem should have one or both
+    // render in inner component
+    props.$$parentBlock = parentBlock;
     updateChildren(props.children, parentBlock);
     return reactElement;
   }
 
+  parentBlock = props.$$parentBlock || parentBlock;
+
+  if (!props.block && !props.elem) {
+    props.$$bemRendered = true;
+  }
+
   var curBlock = props.block || parentBlock;
 
-  if (!props._bemRendered) {
+  if (!props.$$bemRendered) {
 
     var entity;
     var classNames = {};
@@ -50,14 +51,8 @@ function bemRender(reactElement, parentBlock) {
 
     classNames[entity] = true;
 
-    if (type(props.mods) === 'Object') {
-      var mods = props.mods;
-      Object.keys(mods).forEach(function (modName) {
-        if (mods[modName]) {
-          classNames[entity + MOD_DELIM + modName + (mods[modName] === true ? '' : MOD_DELIM + mods[modName])] = true
-        }
-      });
-    }
+    updateModifies(props.mods, entity, classNames);
+
     mergeClasses(props, cx(classNames));
 
   }
@@ -66,6 +61,16 @@ function bemRender(reactElement, parentBlock) {
 
   return reactElement;
 
+}
+
+function updateModifies(mods, entity, classNames) {
+  if (type(mods) === 'Object') {
+    Object.keys(mods).forEach(function (modName) {
+      if (mods[modName]) {
+        classNames[entity + MOD_DELIM + modName + (mods[modName] === true ? '' : MOD_DELIM + mods[modName])] = true
+      }
+    });
+  }
 }
 
 function updateChildren(children, parentBlock) {
@@ -81,7 +86,7 @@ function mergeClasses(props, classList) {
     props.className = props.className
       ? props.className + " " + classList
       : classList;
-    props._bemRendered = true;
+    props.$$bemRendered = true;
   }
 }
 
