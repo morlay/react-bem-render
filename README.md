@@ -45,6 +45,7 @@ or just
 ###  Some rules
 
 * when `block` and `elem` be used together, they will be a mix.
-* mods will be worked with `block` by default, if no `block`, it will be worked with `elem`
+* mods will be worked with `block` by default, if no `block`, it will be worked with `elem`.
+* for React Component if `block` set, it will render in parent.
 
 more examples, please see the test cases.

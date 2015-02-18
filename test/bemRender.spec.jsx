@@ -152,6 +152,69 @@ describe(__filename, function () {
 
   });
 
+  it('when block in Component should render className first', function () {
+
+    var Title = React.createClass({
+      render: function () {
+        return (
+          <h1 {...this.props} />
+        );
+      }
+    });
+
+    var Component = React.createClass({
+      render: function () {
+        return bemRender(
+          <header block='component'>
+            <Title block='title' elem mods={{active: true}}/>
+          </header>
+        )
+      }
+    });
+
+    var string = React.renderToStaticMarkup(
+      <Component/>
+    );
+
+    assert.equal(string, '' +
+    '<header class="component">' +
+    '<h1 class="title component__title title--active"></h1>' +
+    '</header>')
+
+  });
+
+
+  it('parent rendered will stop render inner', function () {
+
+    var Title = React.createClass({
+      render: function () {
+        return bemRender(
+          <h1 {...this.props} block='title' />
+        );
+      }
+    });
+
+    var Component = React.createClass({
+      render: function () {
+        return bemRender(
+          <header block='component'>
+            <Title block='title' elem mods={{active: true}}/>
+          </header>
+        )
+      }
+    });
+
+    var string = React.renderToStaticMarkup(
+      <Component/>
+    );
+
+    assert.equal(string, '' +
+    '<header class="component">' +
+    '<h1 class="title component__title title--active"></h1>' +
+    '</header>')
+
+  });
+
   it('array should work well', function () {
 
     var Component = React.createClass({

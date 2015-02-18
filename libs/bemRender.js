@@ -13,7 +13,8 @@ function bemRender(reactElement, parentBlock) {
 
   var props = reactElement.props || reactElement._store.props;
 
-  if (type(reactElement.type) === 'Function') {
+  if (type(reactElement.type) === 'Function' && !props.block) {
+    // render inner component
     props._parentBlock = parentBlock;
     return reactElement;
   }
@@ -22,49 +23,46 @@ function bemRender(reactElement, parentBlock) {
 
   if (!props.block && !props.elem) {
     // block or elem should have one or both
-    updateChildren(props.children, parentBlock)
+    updateChildren(props.children, parentBlock);
     return reactElement;
   }
 
   var curBlock = props.block || parentBlock;
 
-  var entity;
-  var classNames = {};
+  if (!props._bemRendered) {
 
-  entity = curBlock;
+    var entity;
+    var classNames = {};
 
-  if (props.elem) {
-    if (props.block) {
-      if (type(props.elem) !== 'String') {
-        props.elem = props.block;
+    entity = curBlock;
+
+    if (props.elem) {
+      if (props.block) {
+        if (type(props.elem) !== 'String') {
+          props.elem = props.block;
+        }
+        classNames[entity] = true;
+        classNames[[parentBlock, props.elem].join(ELEM_DELIM)] = true;
+      } else {
+        entity = [curBlock, props.elem].join(ELEM_DELIM);
       }
-      classNames[entity] = true;
-      classNames[[parentBlock, props.elem].join(ELEM_DELIM)] = true;
-    } else {
-      entity = [curBlock, props.elem].join(ELEM_DELIM);
     }
+
+    classNames[entity] = true;
+
+    if (type(props.mods) === 'Object') {
+      var mods = props.mods;
+      Object.keys(mods).forEach(function (modName) {
+        if (mods[modName]) {
+          classNames[entity + MOD_DELIM + modName + (mods[modName] === true ? '' : MOD_DELIM + mods[modName])] = true
+        }
+      });
+    }
+    mergeClasses(props, cx(classNames));
+
   }
 
-  classNames[entity] = true;
-
-  if (type(props.mods) === 'Object') {
-    var mods = props.mods;
-    Object.keys(mods).forEach(function (modName) {
-      if (mods[modName]) {
-        classNames[entity + MOD_DELIM + modName + (mods[modName] === true ? '' : MOD_DELIM + mods[modName])] = true
-      }
-    });
-  }
-
-  var classList = cx(classNames);
-
-  if (classList) {
-    props.className = props.className
-      ? props.className + " " + classList
-      : classList;
-  }
-
-  updateChildren(props.children, curBlock)
+  updateChildren(props.children, curBlock);
 
   return reactElement;
 
@@ -76,6 +74,15 @@ function updateChildren(children, parentBlock) {
       bemRender(childElement, parentBlock)
     }
   });
+}
+
+function mergeClasses(props, classList) {
+  if (classList) {
+    props.className = props.className
+      ? props.className + " " + classList
+      : classList;
+    props._bemRendered = true;
+  }
 }
 
 function cx(classNames) {
