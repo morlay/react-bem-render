@@ -188,5 +188,34 @@ describe(__filename, function () {
     '</ul>')
   });
 
+  it('in deep dom should work well', function () {
+
+
+    var Component = React.createClass({
+      render: function () {
+        return bemRender(
+          <header block='component'>
+            <div>
+              <div>
+                <h1 elem='title' />
+              </div>
+            </div>
+          </header>
+        )
+      }
+    });
+
+    var string = React.renderToStaticMarkup(
+      <Component/>
+    );
+
+    assert.equal(string, '' +
+    '<header class="component"><div><div>' +
+    '<h1 class="component__title"></h1>' +
+    '</div></div></header>')
+
+  })
+
+
 });
 

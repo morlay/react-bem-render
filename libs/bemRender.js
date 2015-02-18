@@ -18,12 +18,13 @@ function bemRender(reactElement, parentBlock) {
     return reactElement;
   }
 
+  parentBlock = props._parentBlock || parentBlock;
+
   if (!props.block && !props.elem) {
     // block or elem should have one or both
+    updateChildren(props.children, parentBlock)
     return reactElement;
   }
-
-  parentBlock = props._parentBlock || parentBlock;
 
   var curBlock = props.block || parentBlock;
 
@@ -63,16 +64,18 @@ function bemRender(reactElement, parentBlock) {
       : classList;
   }
 
-  parentBlock = curBlock;
+  updateChildren(props.children, curBlock)
 
-  React.Children.forEach(props.children, function (childElement) {
+  return reactElement;
+
+}
+
+function updateChildren(children, parentBlock) {
+  React.Children.forEach(children, function (childElement) {
     if (React.isValidElement(childElement)) {
       bemRender(childElement, parentBlock)
     }
   });
-
-  return reactElement;
-
 }
 
 function cx(classNames) {
