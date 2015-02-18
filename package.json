@@ -1,6 +1,6 @@
 {
   "name": "react-bem-render",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "just a simple bem render to auto add bem classes in a component.",
   "main": "index.js",
   "directories": {

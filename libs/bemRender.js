@@ -3,7 +3,10 @@ var ELEM_DELIM = '__';
 var MOD_DELIM = '--';
 
 module.exports = function (reactElement) {
-  return bemRender(reactElement)
+  if (React.isValidElement(reactElement)) {
+    return bemRender(reactElement)
+  }
+  return null;
 };
 
 function bemRender(reactElement, parentBlock) {
@@ -63,7 +66,9 @@ function bemRender(reactElement, parentBlock) {
   parentBlock = curBlock;
 
   React.Children.forEach(props.children, function (childElement) {
-    bemRender(childElement, parentBlock)
+    if (React.isValidElement(childElement)) {
+      bemRender(childElement, parentBlock)
+    }
   });
 
   return reactElement;

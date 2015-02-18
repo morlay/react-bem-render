@@ -152,5 +152,41 @@ describe(__filename, function () {
 
   });
 
+  it('array should work well', function () {
+
+    var Component = React.createClass({
+      renderItem: function () {
+        var list = [1, 2, 3, 4, 5];
+        return list.map(function (item, idx) {
+          return (
+            <li key={idx} elem='item'>
+              {item}
+            </li>
+          )
+        });
+      },
+      render: function () {
+        return bemRender(
+          <ul block='list'>
+           {this.renderItem()}
+          </ul>
+        )
+      }
+    });
+
+    var string = React.renderToStaticMarkup(
+      <Component/>
+    );
+
+    assert.equal(string, '' +
+    '<ul class="list">' +
+    '<li class="list__item">1</li>' +
+    '<li class="list__item">2</li>' +
+    '<li class="list__item">3</li>' +
+    '<li class="list__item">4</li>' +
+    '<li class="list__item">5</li>' +
+    '</ul>')
+  });
+
 });
 
