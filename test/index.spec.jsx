@@ -12,7 +12,7 @@ describe(__filename, function () {
       mixins: [ReactBemRender],
       $render: function () {
         return (
-          <header block='block'>
+          <header block={this.$$block}>
             <h1 elem='title'></h1>
             <p></p>
           </header>
@@ -25,8 +25,8 @@ describe(__filename, function () {
     );
 
     assert.equal(string, '' +
-      '<header class="block">' +
-      '<h1 class="block__title"></h1>' +
+      '<header class="component">' +
+      '<h1 class="component__title"></h1>' +
       '<p></p>' +
       '</header>'
     )
