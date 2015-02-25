@@ -1,5 +1,34 @@
 exports.bemRender = require('./libs/bemRender');
 
+exports.pickBemProps = function (props) {
+
+  var bemProps = [
+    '$$bemRendered',
+    '$$parentBlock',
+    'block',
+    'elem',
+    'mods',
+    'className'
+  ];
+
+  var copy = {};
+  var keys = Object.keys(props);
+  var key = '';
+  var len = keys.length;
+
+  if (len) {
+    while (len--) {
+      key = keys[len];
+      if (bemProps.indexOf(key) > -1) {
+        copy[key] = props[key];
+      }
+    }
+  }
+
+  return copy;
+
+};
+
 exports.componentWillMount = function () {
   this.$$block = require('./libs/camelCase2Dash')(this.constructor.displayName);
 };
