@@ -1,6 +1,7 @@
-var camelCase2Dash = require('../libs/camelCase2Dash');
-var assert = require('chai').assert;
-var should = require('chai').should();
+import camelCase2Dash from '../libs/camelCase2Dash'
+import { assert, should } from 'chai'
+
+should();
 
 describe(__filename, function () {
 
@@ -11,9 +12,8 @@ describe(__filename, function () {
   });
 
   it('should throw error when input is not a string', function () {
-    (function () {
-      camelCase2Dash(function () {
-      })
+    (()=> {
+      camelCase2Dash(() => {})
     }).should.Throw();
   });
 

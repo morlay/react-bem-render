@@ -2,6 +2,15 @@ var React = require('react');
 var ELEM_DELIM = '__';
 var MOD_DELIM = '--';
 
+var relativeProps = [
+  '$$bemRendered',
+  '$$parentBlock',
+  'block',
+  'elem',
+  'mods',
+  'className'
+];
+
 module.exports = function (reactElement) {
 
   if (React.isValidElement(reactElement)) {
@@ -13,16 +22,21 @@ module.exports = function (reactElement) {
 
 function bemRender(reactElement, parentBlock) {
 
-  var props = reactElement.props || reactElement._store.props;
+  var props = {};
+  var originProps = reactElement.props || reactElement._store.props;
+
+  relativeProps.forEach(function (propKey) {
+    props[propKey] = originProps[propKey]
+  });
 
   if (type(reactElement.type) === 'Function' && !props.block) {
-    // render in inner component
     props.$$parentBlock = parentBlock;
-    updateChildren(props.children, parentBlock);
-    return reactElement;
+    props.children = updateChildren(originProps.children, parentBlock);
+    return React.cloneElement(reactElement, props);
   }
 
   parentBlock = props.$$parentBlock || parentBlock;
+
 
   if (!props.block && !props.elem) {
     props.$$bemRendered = true;
@@ -57,9 +71,9 @@ function bemRender(reactElement, parentBlock) {
 
   }
 
-  updateChildren(props.children, curBlock);
+  props.children = updateChildren(originProps.children, curBlock);
 
-  return reactElement;
+  return React.cloneElement(reactElement, props);
 
 }
 
@@ -74,12 +88,23 @@ function updateModifies(mods, entity, classNames) {
 }
 
 function updateChildren(children, parentBlock) {
-  React.Children.forEach(children, function (childElement) {
+
+  if (React.Children.count(children) <= 1) {
+    return checkValidElement(children, parentBlock);
+  } else {
+    return React.Children.map(children, function (childElement) {
+      return checkValidElement(childElement, parentBlock);
+    });
+  }
+
+  function checkValidElement(childElement, parentBlock) {
     if (React.isValidElement(childElement)) {
-      bemRender(childElement, parentBlock)
+      return bemRender(childElement, parentBlock)
     }
-  });
+    return childElement;
+  }
 }
+
 
 function mergeClasses(props, classList) {
   if (classList) {

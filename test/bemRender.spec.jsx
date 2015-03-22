@@ -1,14 +1,14 @@
-var assert = require('chai').assert;
+import { assert } from 'chai'
 
-var React = require('react/addons');
-var bemRender = require('../libs/bemRender');
+import React from 'react/addons'
+import bemRender from '../libs/bemRender'
 
 describe(__filename, function () {
 
   it('prop block and elem in children should work well', function () {
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='block'>
             <h1 elem='title'></h1>
@@ -18,7 +18,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -33,8 +33,8 @@ describe(__filename, function () {
 
   it('prop block and elem should work well', function () {
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='elem'>
             <h1 elem='heading' />
@@ -51,7 +51,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -73,8 +73,8 @@ describe(__filename, function () {
 
   it('prop block and mods should work well', function () {
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         var modifies = {
           active: true
         };
@@ -84,7 +84,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -95,7 +95,7 @@ describe(__filename, function () {
   it('multi modifies should work well', function () {
 
     var Component = React.createClass({
-      render: function () {
+      render() {
         return bemRender(
           <header block='elem' mods={{active: false}}>
             <h1 elem='heading' mods={{active: true}}/>
@@ -123,16 +123,16 @@ describe(__filename, function () {
 
   it('mixing in cross Component should work well', function () {
 
-    var Title = React.createClass({
-      render: function () {
+    const Title = React.createClass({
+      render() {
         return bemRender(
           <h1 {...this.props} block='title' />
         );
       }
     });
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='component'>
             <Title elem mods={{active: true}}/>
@@ -141,7 +141,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -154,16 +154,16 @@ describe(__filename, function () {
 
   it('when block in Component should render className first', function () {
 
-    var Title = React.createClass({
-      render: function () {
+    const Title = React.createClass({
+      render() {
         return (
           <h1 {...this.props} />
         );
       }
     });
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='component'>
             <Title block='title' elem mods={{active: true}}/>
@@ -186,16 +186,16 @@ describe(__filename, function () {
 
   it('parent rendered will stop render inner', function () {
 
-    var Title = React.createClass({
-      render: function () {
+    const Title = React.createClass({
+      render() {
         return bemRender(
           <h1 {...this.props} block='title' />
         );
       }
     });
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='component'>
             <Title block='title' elem mods={{active: true}}/>
@@ -204,7 +204,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -217,7 +217,7 @@ describe(__filename, function () {
 
   it('array should work well', function () {
 
-    var Component = React.createClass({
+    const Component = React.createClass({
       renderItem: function () {
         var list = [1, 2, 3, 4, 5];
         return list.map(function (item, idx) {
@@ -228,7 +228,7 @@ describe(__filename, function () {
           )
         });
       },
-      render: function () {
+      render() {
         return bemRender(
           <ul block='list'>
            {this.renderItem()}
@@ -237,7 +237,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -254,8 +254,8 @@ describe(__filename, function () {
   it('in deep dom should work well', function () {
 
 
-    var Component = React.createClass({
-      render: function () {
+    const Component = React.createClass({
+      render() {
         return bemRender(
           <header block='component'>
             <div>
@@ -268,7 +268,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
@@ -277,8 +277,7 @@ describe(__filename, function () {
     '<h1 class="component__title"></h1>' +
     '</div></div></header>')
 
-  })
-
+  });
 
 });
 

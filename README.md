@@ -49,3 +49,9 @@ or just
 * for React Component if `block` set, it will render in parent.
 
 more examples, please see the test cases.
+
+
+### Change Logs
+
+* `0.2.0` update to support React 0.13.x
+* `< 0.1.6` only support React 0.12.x

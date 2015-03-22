@@ -1,16 +1,15 @@
-var assert = require('chai').assert;
-
-var React = require('react/addons');
-var bemRender = require('../libs/bemRender');
-var ReactBemRender = require('../.');
+import React from 'react/addons'
+import ReactBemRender from '../.'
+import bemRender from '../libs/bemRender'
+import { assert, should } from 'chai'
 
 describe(__filename, function () {
 
   it('use as mixin should work well', function () {
 
-    var Component = React.createClass({
+    const Component = React.createClass({
       mixins: [ReactBemRender],
-      $render: function () {
+      $render() {
         return (
           <header block={this.$$block}>
             <h1 elem='title'></h1>
@@ -20,7 +19,7 @@ describe(__filename, function () {
       }
     });
 
-    var string = React.renderToStaticMarkup(
+    const string = React.renderToStaticMarkup(
       <Component/>
     );
 
