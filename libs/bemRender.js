@@ -89,13 +89,13 @@ function updateModifies(mods, entity, classNames) {
 
 function updateChildren(children, parentBlock) {
 
-  if (React.Children.count(children) <= 1) {
-    return checkValidElement(children, parentBlock);
-  } else {
+  if (type(children) === 'Array') {
     return React.Children.map(children, function (childElement) {
       return checkValidElement(childElement, parentBlock);
     });
   }
+
+  return checkValidElement(children, parentBlock);
 
   function checkValidElement(childElement, parentBlock) {
     if (React.isValidElement(childElement)) {
