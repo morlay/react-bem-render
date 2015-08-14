@@ -1,4 +1,5 @@
-exports.bemRender = require('./libs/bemRender');
+exports.bemRender = require('./libs/bemRender')
+exports.bemDecorator = require('./libs/bemDecorator')
 
 exports.pickBemProps = function (props) {
 
@@ -39,4 +40,3 @@ exports.render = function () {
   }
   return null;
 };
-
