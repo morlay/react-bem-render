@@ -1,5 +1,5 @@
-exports.bemRender = require('./libs/bemRender')
-exports.bemDecorator = require('./libs/bemDecorator')
+exports.bemRender = require('./bemRender')
+exports.bemDecorator = require('./bemDecorator')
 
 exports.pickBemProps = function (props) {
 
@@ -31,7 +31,7 @@ exports.pickBemProps = function (props) {
 };
 
 exports.componentWillMount = function () {
-  this.$$block = require('./libs/camelCase2Dash')(this.constructor.displayName);
+  this.$$block = require('./camelCase2Dash')(this.constructor.displayName);
 };
 
 exports.render = function () {

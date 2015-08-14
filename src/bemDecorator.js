@@ -10,8 +10,8 @@ function bemDecorator(target, name, descriptor) {
     );
   }
 
-  descriptor.value = function (...args) {
-    return bemRender(render.bind(this)(args))
+  descriptor.value = function () {
+    return bemRender(render.bind(this)())
   };
 
   return descriptor

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 
 import React from 'react/addons'
-import bemRender from '../libs/bemRender'
+import bemRender from '../src/bemRender'
 
 describe(__filename, function () {
 
@@ -280,4 +280,3 @@ describe(__filename, function () {
   });
 
 });
-

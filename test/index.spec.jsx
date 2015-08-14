@@ -1,6 +1,6 @@
 import React from 'react/addons'
-import ReactBemRender from '../.'
-import bemRender from '../libs/bemRender'
+import ReactBemRender from '../src'
+import bemRender from '../src/bemRender'
 import { assert, should } from 'chai'
 
 describe(__filename, function () {
@@ -33,4 +33,3 @@ describe(__filename, function () {
   });
 
 });
-
