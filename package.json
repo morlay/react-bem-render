@@ -10,9 +10,9 @@
     "react": "^0.13.1"
   },
   "devDependencies": {
-    "babel": "^4.7.16",
-    "chai": "^2.1.2",
-    "jsdom": "^3.1.2",
+    "babel": "^5.8.21",
+    "chai": "^3.2.0",
+    "jsdom": "3.1.2",
     "mocha": "^2.2.1"
   },
   "scripts": {
